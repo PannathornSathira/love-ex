@@ -1048,80 +1048,12 @@ footer span {
 
 /* Add bottom padding to prevent PackageSwitcher blocking footer content */
 .app-shell {
-  padding-bottom: 220px;
+  padding-bottom: 0;
 }
 
 .client-web-wrapper {
   max-width: 100%;
   overflow-x: hidden;
-}
-
-/* 1. Navbar Header (Simulated Multi-Page) */
-.client-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 24px;
-  background: rgba(255, 252, 248, 0.92);
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  backdrop-filter: blur(12px);
-}
-
-.navbar-logo {
-  font-size: 1.35rem;
-  font-weight: 950;
-  color: var(--rose-deep);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-heart {
-  animation: heartbeat 1.4s infinite;
-}
-
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  14% { transform: scale(1.12); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.12); }
-  70% { transform: scale(1); }
-}
-
-.navbar-links {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.navbar-links::-webkit-scrollbar {
-  display: none;
-}
-
-.navbar-tab-btn {
-  padding: 8px 16px;
-  border-radius: 99px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 800;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.25s ease;
-}
-
-.navbar-tab-btn:hover {
-  color: var(--rose-deep);
-  background: rgba(223, 79, 72, 0.06);
-}
-
-.navbar-tab-btn.is-active {
-  color: #fff;
-  background: var(--rose-deep);
-  box-shadow: 0 4px 12px rgba(223, 79, 72, 0.2);
 }
 
 /* Tab contents fade in */
@@ -1134,46 +1066,72 @@ footer span {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 2. Package Switcher Panel */
-.package-switcher-container {
-  position: fixed;
-  bottom: 0;
+/* 2. Sticky Top Package Switcher */
+.package-switcher-container.top-switcher {
+  position: sticky;
+  top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 252, 248, 0.94);
-  border-top: 2px solid var(--line);
-  box-shadow: 0 -10px 30px rgba(111, 69, 59, 0.12);
-  padding: 16px 24px;
+  background: rgba(255, 252, 248, 0.96);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 4px 20px rgba(111, 69, 59, 0.06);
+  padding: 10px 24px;
   z-index: 1000;
   backdrop-filter: blur(20px);
 }
 
-.package-switcher-header {
+.package-switcher-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.package-switcher-brand {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+}
+
+.brand-icon {
+  font-size: 1.4rem;
+  color: #df4f48;
+  animation: heartbeat 1.4s infinite;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-weight: 950;
+  font-size: 1rem;
+  color: var(--rose-deep);
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-size: 0.68rem;
   color: var(--muted);
-  font-size: 0.8rem;
   font-weight: 800;
-  margin-bottom: 12px;
-  text-transform: uppercase;
 }
 
 .package-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 1000px;
-  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .package-tab-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 16px;
-  border: 2px solid rgba(119, 86, 77, 0.12);
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(119, 86, 77, 0.12);
   background: #fff;
   color: var(--ink);
   cursor: pointer;
@@ -1184,79 +1142,90 @@ footer span {
 
 .package-tab-btn:hover {
   border-color: var(--theme-color);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .package-tab-btn.is-active {
   border-color: var(--theme-color);
   background: var(--theme-color);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pkg-icon {
+  flex-shrink: 0;
 }
 
 .tab-btn-content {
   display: flex;
   flex-direction: column;
+  line-height: 1.1;
 }
 
 .tab-name {
   font-weight: 900;
-  font-size: 0.95rem;
+  font-size: 0.82rem;
 }
 
 .tab-price {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   opacity: 0.85;
+  font-weight: 800;
 }
 
 .tab-badge {
   position: absolute;
-  top: -8px;
-  right: 12px;
-  font-size: 0.65rem;
+  top: -6px;
+  right: 8px;
+  font-size: 0.55rem;
   font-weight: 900;
   color: #fff;
   background: var(--ink);
-  padding: 2px 8px;
+  padding: 1px 6px;
   border-radius: 99px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .package-details-banner {
-  max-width: 1000px;
-  margin: 12px auto 0;
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
-  font-size: 0.88rem;
+  max-width: 1200px;
+  margin: 6px auto 0;
+  border-top: 1px solid rgba(119, 86, 77, 0.08);
+  padding-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 6px;
+}
+
+.current-pkg-label {
+  font-weight: 900;
 }
 
 .pkg-desc {
-  margin: 0 0 8px;
   color: var(--muted);
 }
 
 .pkg-features-pill {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 0 4px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .pkg-feature-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 800;
-  color: var(--ink);
+  color: var(--muted);
+  font-weight: 700;
+  display: inline;
 }
 
-.pkg-feature-item .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
+.divider, .comma {
+  color: var(--line);
+  margin: 0 2px;
 }
 
 /* 3. Welcome Overlay Animation */
@@ -2139,37 +2108,56 @@ footer span {
     gap: 10px;
   }
 
-  .navbar-logo {
-    font-size: 1.15rem;
+  .package-switcher-container.top-switcher {
+    padding: 8px 12px;
   }
 
-  .navbar-links {
-    width: 100%;
-    justify-content: flex-start;
-    padding-bottom: 4px;
+  .package-switcher-row {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
   }
 
-  .navbar-tab-btn {
-    padding: 6px 12px;
-    font-size: 0.82rem;
+  .package-switcher-brand {
+    justify-content: center;
   }
 
-  .package-switcher-container {
-    padding: 12px 14px 14px;
+  .brand-title {
+    font-size: 0.9rem;
+  }
+
+  .brand-subtitle {
+    font-size: 0.65rem;
   }
 
   .package-tabs {
-    grid-template-columns: 1fr;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
   }
 
   .package-tab-btn {
-    padding: 8px 12px;
-    border-radius: 12px;
+    justify-content: center;
+    padding: 6px 4px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pkg-icon {
+    display: none; /* Hide icon on mobile package button to save space */
   }
 
   .tab-name {
-    font-size: 0.85rem;
+    font-size: 0.72rem;
+  }
+
+  .tab-price {
+    font-size: 0.65rem;
+  }
+
+  .tab-badge {
+    display: none; /* Hide badge on mobile package button to save space */
   }
 
   .package-details-banner {
@@ -2229,4 +2217,93 @@ footer span {
     flex-direction: column;
   }
 }
+
+/* Page Pagination Control Bar Styles */
+.page-navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  padding: 16px 20px;
+  background: rgba(255, 252, 248, 0.85);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--soft-shadow);
+  backdrop-filter: blur(8px);
+}
+
+.nav-page-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 99px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prev-btn {
+  background: rgba(117, 139, 114, 0.1);
+  color: var(--sage);
+  border: 1px solid rgba(117, 139, 114, 0.2);
+}
+
+.prev-btn:hover {
+  background: rgba(117, 139, 114, 0.2);
+  transform: translateX(-4px);
+}
+
+.next-btn {
+  background: var(--rose-deep);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(223, 79, 72, 0.25);
+}
+
+.next-btn:hover {
+  background: #c5423c;
+  box-shadow: 0 8px 20px rgba(223, 79, 72, 0.35);
+  transform: translateX(4px);
+}
+
+.restart-btn {
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(201, 139, 46, 0.25);
+}
+
+.restart-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(201, 139, 46, 0.35);
+}
+
+.nav-placeholder {
+  flex: 0 0 10px;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .page-navigation-bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 36px;
+    padding: 14px;
+  }
+  
+  .nav-page-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .nav-placeholder {
+    display: none;
+  }
+}
+
 

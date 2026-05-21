@@ -6,7 +6,6 @@ import {
   LockKeyhole,
   Sparkles,
 } from 'lucide-react';
-import { siteConfig } from './data/siteConfig.js';
 import { Hero } from './components/Hero.jsx';
 import { SectionHeader } from './components/SectionHeader.jsx';
 import { LoveLetter } from './components/LoveLetter.jsx';
@@ -24,68 +23,10 @@ import { MiniGames } from './components/MiniGames.jsx';
 import { InteractiveMap } from './components/InteractiveMap.jsx';
 import { FuturePromises } from './components/FuturePromises.jsx';
 
-const EXTENDED_PHOTOS = [
-  {
-    title: 'วันแรกที่ได้เดินข้างกัน',
-    caption: 'บรรยากาศเย็น ๆ กับรอยยิ้มที่ยังจำได้',
-    image: '/memory-walk.png',
-    tone: 'sunset',
-  },
-  {
-    title: 'มื้อโปรดของเรา',
-    caption: 'อาหารอร่อยขึ้นเสมอเมื่อได้กินด้วยกัน',
-    image: '/memory-meal.png',
-    tone: 'rose',
-  },
-  {
-    title: 'ทริปเล็ก ๆ แต่พิเศษ',
-    caption: 'ไม่ต้องไปไกล แค่ไปกับเธอก็พอ',
-    image: '/memory-trip.png',
-    tone: 'cream',
-  },
-  {
-    title: 'คืนที่ได้นั่งคุยนาน ๆ',
-    caption: 'บางบทสนทนาอยู่ในใจนานกว่าที่คิด',
-    image: '/memory-night.png',
-    tone: 'coral',
-  },
-  {
-    title: 'ดูพระอาทิตย์ตกด้วยกัน',
-    caption: 'ท้องฟ้าเปลี่ยนสีสวยงาม แต่น้อยกว่ารอยยิ้มของเธอ',
-    image: '/memory-walk.png',
-    tone: 'sunset',
-  },
-  {
-    title: 'ของหวานร้านโปรด',
-    caption: 'เติมความหวานเข้าร่างกาย แต่หวานไม่เท่าเธอ',
-    image: '/memory-meal.png',
-    tone: 'rose',
-  },
-  {
-    title: 'ทริปภูเขาแสนสนุก',
-    caption: 'สูดอากาศบริสุทธิ์ ชาร์จพลังชีวิตข้างๆ กัน',
-    image: '/memory-trip.png',
-    tone: 'cream',
-  },
-  {
-    title: 'ดูหนังกินป๊อปคอร์น',
-    caption: 'เรื่องธรรมดาในค่ำคืนวันศุกร์ที่แสนวิเศษ',
-    image: '/memory-night.png',
-    tone: 'coral',
-  },
-  {
-    title: 'เดินซื้อของขวัญ',
-    caption: 'เลือกชิ้นที่ถูกใจที่สุดเพื่อเธอคนเดียว',
-    image: '/memory-walk.png',
-    tone: 'sunset',
-  },
-  {
-    title: 'มื้อค่ำรอบดึก',
-    caption: 'กินมาม่าต้มยำร้อนๆ ด้วยกันในห้องนั่งเล่น',
-    image: '/memory-meal.png',
-    tone: 'rose',
-  }
-];
+// Import split configuration files for easy editing
+import { basicConfig } from './data/basicConfig.js';
+import { standardConfig } from './data/standardConfig.js';
+import { premiumConfig } from './data/premiumConfig.js';
 
 const STANDARD_TABS = [
   { id: 'home', label: 'หน้าแรก' },
@@ -118,7 +59,14 @@ function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isSecretOpen, setIsSecretOpen] = useState(false);
 
-  const { couple, hero, letter, secret, timeline, music, promise, footer } = siteConfig;
+  // Dynamically select config matching active package
+  const config = activePackage === 'basic' 
+    ? basicConfig 
+    : activePackage === 'standard' 
+      ? standardConfig 
+      : premiumConfig;
+
+  const { couple, hero, letter, secret, gallery, timeline, music, promise, footer } = config;
 
   // Reset tab to 'home' when package changes
   useEffect(() => {
@@ -130,20 +78,67 @@ function App() {
     setActivePackage(newPkg);
   };
 
-  // Determine current package name
   const packageName = PACKAGE_NAMES[activePackage] || 'รักหมดใจสายเปย์';
-
-  // Slice photos based on package tier
-  const photosLimit = activePackage === 'basic' ? 4 : activePackage === 'standard' ? 6 : 10;
-  const currentPhotos = EXTENDED_PHOTOS.slice(0, photosLimit);
 
   // Choose tab set based on package
   const activeTabs = activePackage === 'basic' ? [] : activePackage === 'standard' ? STANDARD_TABS : PREMIUM_TABS;
+
+  // Pagination navigation handler
+  const renderPagination = () => {
+    if (activePackage === 'basic') return null;
+    const currentIndex = activeTabs.findIndex(t => t.id === activeTab);
+    if (currentIndex === -1) return null;
+
+    const hasPrev = currentIndex > 0;
+    const hasNext = currentIndex < activeTabs.length - 1;
+
+    const handlePrev = () => {
+      const prevTab = activeTabs[currentIndex - 1];
+      setActiveTab(prevTab.id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleNext = () => {
+      const nextTab = activeTabs[currentIndex + 1];
+      setActiveTab(nextTab.id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleRestart = () => {
+      setActiveTab(activeTabs[0].id);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    return (
+      <div className="page-navigation-bar">
+        {hasPrev ? (
+          <button className="nav-page-btn prev-btn" onClick={handlePrev}>
+            ← หน้าก่อนหน้า ({activeTabs[currentIndex - 1].label})
+          </button>
+        ) : (
+          <div className="nav-placeholder" />
+        )}
+
+        {hasNext ? (
+          <button className="nav-page-btn next-btn" onClick={handleNext}>
+            หน้าถัดไป ({activeTabs[currentIndex + 1].label}) →
+          </button>
+        ) : (
+          <button className="nav-page-btn restart-btn" onClick={handleRestart}>
+            ↺ กลับไปหน้าแรก
+          </button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className={`app-shell package-${activePackage}`}>
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
+
+      {/* Sticky Top Package Switcher Control Panel */}
+      <PackageSwitcher activePackage={activePackage} onChangePackage={handlePackageChange} />
 
       {/* Floating welcome animation on package switch */}
       <WelcomeAnimation activePackage={activePackage} packageName={packageName} />
@@ -151,26 +146,6 @@ function App() {
       {/* Main Client Web Content Container */}
       <div className="client-web-wrapper">
         
-        {/* Render Navbar Header (Standard & Premium Packages only) */}
-        {activePackage !== 'basic' && (
-          <header className="client-navbar">
-            <div className="navbar-logo">
-              <span className="logo-heart">♥</span> {couple.nameOne} & {couple.nameTwo}
-            </div>
-            <nav className="navbar-links">
-              {activeTabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  className={`navbar-tab-btn ${activeTab === tab.id ? 'is-active' : ''}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </nav>
-          </header>
-        )}
-
         <main id="top" className="client-main-content">
           
           {/* BASIC PACKAGE: Linear single-page scrolling layout */}
@@ -204,10 +179,10 @@ function App() {
               <section className="section" id="gallery">
                 <SectionHeader
                   eyebrow="Our Photos"
-                  title="อัลบั้มรูปภาพโพลารอยด์"
-                  description="อัลบั้มภาพความทรงจำของเรา (แพ็กเกจเริ่มต้นสูงสุด 10 รูป)"
+                  title={gallery.title}
+                  description={gallery.subtitle}
                 />
-                <Gallery photos={currentPhotos} />
+                <Gallery photos={gallery.photos} />
               </section>
 
               <section className="section section-split" id="timeline">
@@ -247,9 +222,7 @@ function App() {
                     <div className="music-copy">
                       <p className="eyebrow">Playlist</p>
                       <h2>{music.title}</h2>
-                      <p>
-                        บทเพลงบางเพลงร้องเพื่อบอกรักเธอแทนตัวฉันในทุกๆ วัน
-                      </p>
+                      <p>{music.note}</p>
                     </div>
                     <MusicCard music={music} />
                   </section>
@@ -303,10 +276,10 @@ function App() {
                   <section className="section" id="gallery" style={{ paddingTop: '0px' }}>
                     <SectionHeader
                       eyebrow="Our Photos"
-                      title="คอลเลกชันความทรงจำของเรา 📸"
-                      description={`รูปภาพและคำบรรยายสุดพิเศษ (สูงสุด ${activePackage === 'standard' ? '25' : '50'} รูปตามแพ็กเกจ)`}
+                      title={gallery.title}
+                      description={gallery.subtitle}
                     />
-                    <Gallery photos={currentPhotos} />
+                    <Gallery photos={gallery.photos} />
                   </section>
                 </div>
               )}
@@ -351,6 +324,9 @@ function App() {
                 </div>
               )}
 
+              {/* Render forward/backward pagination navigation */}
+              {renderPagination()}
+
             </div>
           )}
 
@@ -360,9 +336,6 @@ function App() {
           </footer>
         </main>
       </div>
-
-      {/* Package Switcher floating Preview Control Panel */}
-      <PackageSwitcher activePackage={activePackage} onChangePackage={handlePackageChange} />
     </div>
   );
 }
