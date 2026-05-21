@@ -151,7 +151,7 @@ function App() {
           {/* BASIC PACKAGE: Linear single-page scrolling layout */}
           {activePackage === 'basic' && (
             <>
-              <Hero couple={couple} hero={hero} />
+              <Hero couple={couple} hero={hero} activePackage="basic" />
 
               <section className="section section-letter" id="letter">
                 <SectionHeader
@@ -217,7 +217,7 @@ function App() {
               
               {activeTab === 'home' && (
                 <div className="tab-fade-in">
-                  <Hero couple={couple} hero={hero} />
+                  <Hero couple={couple} hero={hero} activePackage={activePackage} />
                   <section className="section music-section" id="music" style={{ marginTop: '40px' }}>
                     <div className="music-copy">
                       <p className="eyebrow">Playlist</p>

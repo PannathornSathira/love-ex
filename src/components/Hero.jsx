@@ -1,6 +1,31 @@
-import { ChevronRight, Heart, Image, MessageCircle, Music, Sparkles } from 'lucide-react';
+import { Heart, Image, MessageCircle, Music, Sparkles, MapPin, Gamepad2, ListTodo } from 'lucide-react';
 
-export function Hero({ couple, hero }) {
+const PACKAGE_FEATURES = {
+  basic: [
+    { label: 'จดหมายรัก', icon: MessageCircle },
+    { label: 'รูปของเรา', icon: Image },
+    { label: 'เพลงของเธอ', icon: Music },
+    { label: 'ข้อความลับ', icon: Sparkles }
+  ],
+  standard: [
+    { label: 'จดหมายรัก', icon: MessageCircle },
+    { label: 'ความทรงจำ', icon: Image },
+    { label: 'สิ่งที่ฉันรัก', icon: Heart },
+    { label: 'มินิเกมหัวใจ', icon: Gamepad2 },
+    { label: 'ฉลองครบรอบ', icon: Sparkles }
+  ],
+  premium: [
+    { label: 'จดหมายรัก', icon: MessageCircle },
+    { label: 'แผนที่ความรัก', icon: MapPin },
+    { label: 'คำสัญญาของเรา', icon: ListTodo },
+    { label: 'มินิเกมคู่รัก', icon: Gamepad2 },
+    { label: 'เพลง & ความลับ', icon: Sparkles }
+  ]
+};
+
+export function Hero({ couple, hero, activePackage = 'premium' }) {
+  const features = PACKAGE_FEATURES[activePackage] || PACKAGE_FEATURES.premium;
+
   return (
     <section className="hero-section">
       <div className="hero-copy">
@@ -13,15 +38,6 @@ export function Hero({ couple, hero }) {
             {couple.nameOne} + {couple.nameTwo}
           </span>
           <span>{couple.anniversary}</span>
-        </div>
-        <div className="hero-actions">
-          <a className="pill-button large" href="#letter">
-            {hero.primaryCta}
-            <ChevronRight size={18} />
-          </a>
-          <a className="ghost-button" href="#gallery">
-            {hero.secondaryCta}
-          </a>
         </div>
       </div>
 
@@ -52,18 +68,14 @@ export function Hero({ couple, hero }) {
             </div>
           </div>
           <div className="feature-bar" aria-label="สิ่งที่อยู่ในของขวัญ">
-            <span>
-              <MessageCircle size={18} /> จดหมาย
-            </span>
-            <span>
-              <Image size={18} /> รูปของเรา
-            </span>
-            <span>
-              <Music size={18} /> เพลงของเธอ
-            </span>
-            <span>
-              <Sparkles size={18} /> ข้อความลับ
-            </span>
+            {features.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <span key={idx}>
+                  <IconComp size={18} /> {item.label}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

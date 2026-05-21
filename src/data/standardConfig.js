@@ -57,13 +57,13 @@ export const standardConfig = {
       {
         title: 'ดูพระอาทิตย์ตกดินด้วยกัน',
         caption: 'ท้องฟ้าเปลี่ยนสีสวยงาม แต่น้อยกว่ารอยยิ้มของเธอ',
-        image: '/memory-walk.png',
+        image: '/memory-sunset.png',
         tone: 'sunset',
       },
       {
         title: 'ของหวานร้านโปรด',
         caption: 'เติมความหวานเข้าร่างกาย แต่หวานไม่เท่าเธอ',
-        image: '/memory-meal.png',
+        image: '/memory-dessert.png',
         tone: 'rose',
       },
     ],

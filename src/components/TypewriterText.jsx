@@ -10,7 +10,8 @@ export function TypewriterText({ text, speed = 35 }) {
 
     function type() {
       if (index < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(index));
+        const char = text.charAt(index);
+        setDisplayedText((prev) => prev + char);
         index++;
         timer = setTimeout(type, speed);
       }
