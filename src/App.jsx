@@ -218,14 +218,6 @@ function App() {
               {activeTab === 'home' && (
                 <div className="tab-fade-in">
                   <Hero couple={couple} hero={hero} activePackage={activePackage} />
-                  <section className="section music-section" id="music" style={{ marginTop: '40px' }}>
-                    <div className="music-copy">
-                      <p className="eyebrow">Playlist</p>
-                      <h2>{music.title}</h2>
-                      <p>{music.note}</p>
-                    </div>
-                    <MusicCard music={music} />
-                  </section>
                 </div>
               )}
 
